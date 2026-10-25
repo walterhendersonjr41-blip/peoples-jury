@@ -1,0 +1,2 @@
+{"name":"People's Jury","short_name":"People's Jury","description":"Two people. Two sides. You decide.","start_url":"./","scope":"./","display":"standalone","background_color":"#f4f2ec","theme_color":"#1e3a8a",
+"icons":[{"src":"icons/icon-192.png","sizes":"192x192","type":"image/png"},{"src":"icons/icon-512.png","sizes":"512x512","type":"image/png"},{"src":"icons/maskable-512.png","sizes":"512x512","type":"image/png","purpose":"maskable"}]}
