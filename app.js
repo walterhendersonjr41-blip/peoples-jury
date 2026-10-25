@@ -52,7 +52,8 @@ async function fingerprint() {
 async function ipHash() {
   try { const c = new AbortController(); setTimeout(() => c.abort(), 4000);
     const j = await (await fetch('https://api.ipify.org?format=json', { signal: c.signal })).json();
-    return (await sha('pj|' + j.ip)).slice(0, 6);                    // short hash: never the IP itself
+    const ip = String(j.ip || ''); const net = ip.includes(':') ? ip.split(':').slice(0, 3).join(':') : ip.split('.').slice(0, 3).join('.');
+    return (await sha('pj|' + net)).slice(0, 6);                     // short hash of the network block (/24): never the IP itself
   } catch (e) { return ''; }
 }
 
@@ -540,7 +541,7 @@ async function shareVerdictCard(c) {
 
 /* ---------------- logo + router ---------------- */
 const LOGO = `<svg viewBox="0 0 120 120" width="88" height="88" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1e3a8a"/><stop offset="1" stop-color="#6d28d9"/></linearGradient></defs><rect width="120" height="120" rx="28" fill="url(#lg)"/><g fill="none" stroke="#f5c542" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"><path d="M60 26v62M38 92h44M30 40h60"/><path d="M30 40l-12 26h24zM90 40l-12 26h24z"/></g><circle cx="60" cy="26" r="6" fill="#f5c542"/><path d="M18 66a12 7 0 0 0 24 0M78 66a12 7 0 0 0 24 0" fill="#f5c542"/></svg>`;
-window.PJ = { buildCase, Store, NS, get PK() { return PK; } };              // test hook
+window.PJ = { buildCase, loadCase, verdictCanvas, Store, NS, get PK() { return PK; }, get FP() { return FP; }, get IPH() { return IPH; } };              // test hook
 async function route() {
   window.scrollTo(0, 0);
   const h = location.hash.replace(/^#\/?/, '').split('/');
